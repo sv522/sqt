@@ -1,8 +1,8 @@
 # Computing 2 SQT Submission.
 In this code repository is a module that can simulate a game of Tetris
-`web-app/common/Tetris.js`
+`web-app/Tetris.js`
 and a web app to play the game.
-`web-app/browser/`
+`web-app/index.html`
 
 The module and app will play a tetris game,
 but are missing some features that you might expect.

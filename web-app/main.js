@@ -1,4 +1,5 @@
-import Tetris from "../common/Tetris.js";
+import R from "./ramda.js";
+import Tetris from "./Tetris.js";
 
 const grid_columns = Tetris.field_width;
 const grid_rows = Tetris.field_height;
@@ -10,13 +11,11 @@ document.documentElement.style.setProperty("--grid-columns", grid_columns);
 
 const grid = document.getElementById("grid");
 
-const range = (n) => Array.from({"length": n}, (ignore, k) => k);
-
-const cells = range(grid_rows).map(function () {
+const cells = R.range(0, grid_rows).map(function () {
     const row = document.createElement("div");
     row.className = "row";
 
-    const rows = range(grid_columns).map(function () {
+    const rows = R.range(0, grid_columns).map(function () {
         const cell = document.createElement("div");
         cell.className = "cell";
 

@@ -1,4 +1,5 @@
 import R from "./ramda.js";
+
 /**
  * @namespace Tetris
  * @author A. Freddie Page
@@ -479,7 +480,7 @@ Tetris.rotate_ccw = function (game) {
     return R.mergeRight(game, {"current_tetromino": new_rotation});
 };
 
-const drop_once = function (game) {
+const descend = function (game) {
     const new_position = [game.position[0], game.position[1] + 1];
     if (is_blocked(game.field, game.current_tetromino, new_position)) {
         return game;
@@ -500,7 +501,7 @@ Tetris.soft_drop = function (game) {
     if (Tetris.is_game_over(game)) {
         return game;
     }
-    return drop_once(game);
+    return descend(game);
 };
 
 /**
@@ -517,7 +518,7 @@ Tetris.hard_drop = function (game) {
     if (Tetris.is_game_over(game)) {
         return game;
     }
-    const dropped_once = drop_once(game);
+    const dropped_once = descend(game);
     if (R.equals(game, dropped_once)) {
         return Tetris.next_turn(game);
     }
@@ -553,7 +554,7 @@ const clear_lines = R.pipe(
 
 /**
  * next_turn advances the Tetris game.
- * It will attempt to descent the current tetromino once.
+ * It will attempt to descend the current tetromino once.
  * If this is possible, that game state is returned.
  * Otherwise it checks if the game is lost (The current state is blocked)
  * Then otherwise will lock the current tetromino in place and deploy the next
@@ -568,11 +569,15 @@ Tetris.next_turn = function (game) {
         return game;
     }
 
-    const dropped_once = drop_once(game);
-    if (!R.equals(game, dropped_once)) {
-        return dropped_once;
+    // If the current piece can descend, do that.
+    const descended = descend(game);
+    if (!R.equals(game, descended)) {
+        return descended;
     }
 
+    // Is the current piece on top of a locked in piece?
+    // I.e. it's just been deployed and something is in the way.
+    // In this case, lose the game.
     if (is_blocked_by_geometry(
         game.field,
         game.current_tetromino,
@@ -581,6 +586,8 @@ Tetris.next_turn = function (game) {
         return lose(game);
     }
 
+    // Otherwise, we can't descend and we've not lost,
+    // So lock the current piece in place and deploy the next.
     const locked_field = lock(game);
 
     const cleared_field = clear_lines(locked_field);

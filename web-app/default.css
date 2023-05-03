@@ -71,7 +71,6 @@ aside
 {
     background: var(--palette-base1);
     height: calc(100% - var(--header-height) - var(--footer-height));
-    /* max-width: var(--sidebar-max-width); */
     position: absolute;
     top: var(--header-height);
     width: var(--sidebar-width);
@@ -129,11 +128,6 @@ footer
     padding: 0;
     position: relative;
     width: calc(100% / var(--grid-columns));
-}
-
-.cell.empty
-{
-    
 }
 
 .cell.I
