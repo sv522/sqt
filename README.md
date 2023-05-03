@@ -12,8 +12,7 @@ This assignment will have you implement some additional features,
 which are targeted to the module assessment criteria.
 
 ## Setup
-* Run `npm install` in the root directory to install server dependencies (express)
-* Run `npm install --prefix ./web-app/common` to install common dependencies (ramda)
+* Run `npm install` in the root directory to install server dependencies (ramda etc.)
 
 ## Tasks ##
 ### Colourful blocks
