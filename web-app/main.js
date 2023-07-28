@@ -29,6 +29,8 @@ const cells = R.range(0, grid_rows).map(function () {
 });
 
 const update_grid = function () {
+
+    // First display the grid of locked in blocks
     game.field.forEach(function (line, line_index) {
         line.forEach(function (block, column_index) {
             const cell = cells[line_index][column_index];
@@ -36,6 +38,25 @@ const update_grid = function () {
         });
     });
 
+    // Display ghost tetromino
+    const ghost_game = R.reduce(Tetris.soft_drop, game, R.range(0, 22));
+    Tetris.tetromino_coordiates(
+        ghost_game.current_tetromino,
+        ghost_game.position
+    ).forEach(
+        function (coord) {
+            try {
+                const cell = cells[coord[1]][coord[0]];
+                cell.className = (
+                    `cell ghost ${ghost_game.current_tetromino.block_type}`
+                );
+            } catch (ignore) {
+
+            }
+        }
+    );
+
+    // Display currently dropping tetromino
     Tetris.tetromino_coordiates(game.current_tetromino, game.position).forEach(
         function (coord) {
             try {
@@ -48,6 +69,9 @@ const update_grid = function () {
             }
         }
     );
+
+    // Add code below to display the score information.
+
 };
 
 // Don't allow the player to hold down the rotate key.
@@ -83,6 +107,8 @@ const timer_function = function () {
     setTimeout(timer_function, 500);
 };
 
+// This first timeout starts the game. it's only called once.
+// From here on the timer_function above is called.
 setTimeout(timer_function, 500);
 
 update_grid();

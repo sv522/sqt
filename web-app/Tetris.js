@@ -1,11 +1,12 @@
 import R from "./ramda.js";
+import Score from "./Score.js";
 
 /**
  * @namespace Tetris
  * @author A. Freddie Page
- * @version 2021.22
+ * @version 2022.23
  */
-const Tetris = Object.create(null);
+const Tetris = {};
 
 
 //----------------------------------------------------------------------------//
@@ -26,7 +27,7 @@ const Tetris = Object.create(null);
  * @property {boolean} game_over Whether this game has ended.
  * @property {Tetris.Tetromino} next_tetromino The next piece to descend.
  * @property {number[]} position Where in the field is the current tetromino.
- * @property {Tetris.Score} score Information relating to the score of the game.
+ * @property {Score.Score} score Information relating to the score of the game.
  */
 
 /**
@@ -81,14 +82,6 @@ const Tetris = Object.create(null);
  * @returns {array<(Tetris.Tetromino | Tetris.Tetromino_bag)>}
  * @example
  * const [next_piece, next_bag] = bag();
- */
-
-/**
- * The score object contains information about the score of the game.
- * Currently it is implemented as a single number,
- * but could include other information such as the number of lines cleared.
- * @typedef {number} Score
- * @memberof Tetris
  */
 
 //----------------------------------------------------------------------------//
@@ -287,8 +280,6 @@ const new_field = function () {
     return R.times(new_line, Tetris.field_height);
 };
 
-const new_score = () => 0;
-
 /**
  * Returns a game state for a new Tetris Game.
  * @function
@@ -306,7 +297,7 @@ Tetris.new_game = function () {
         "game_over": false,
         "next_tetromino": next_tetromino,
         "position": starting_position,
-        "score": new_score()
+        "score": Score.new_score()
     };
 };
 
@@ -565,6 +556,8 @@ const clear_lines = R.pipe(
  * @returns {Tetris.Game}
  */
 Tetris.next_turn = function (game) {
+    console.log(game);
+
     if (game.game_over) {
         return game;
     }

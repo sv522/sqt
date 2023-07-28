@@ -4,7 +4,8 @@
     },
     "source": {
         "include": [
-            "web-app/Tetris.js"
+            "web-app/Tetris.js",
+            "web-app/Score.js"
         ],
         "includePattern": "\\.js$",
         "excludePattern": "(node_modules/|docs)"
