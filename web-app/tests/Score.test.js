@@ -72,6 +72,9 @@ describe("Score", function () {
             // Slot a T tetromino into the hole and drop.
             // This can only go one deep.
             game.current_tetromino = Tetris.Z_tetromino;
+
+            // I could use hard_drop here, but that would also score.
+            // Instead wait for it to drop 22 times.
             R.range(0, 22).forEach(function () {
                 game = Tetris.next_turn(game);
             });

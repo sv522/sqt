@@ -1,5 +1,6 @@
 import R from "./ramda.js";
 import Tetris from "./Tetris.js";
+import Score from "./Score.js";
 
 const grid_columns = Tetris.field_width;
 const grid_rows = Tetris.field_height;

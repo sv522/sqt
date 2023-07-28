@@ -41,7 +41,7 @@ both the score and the number of lines cleared.
 i.e.,
 ```javascript
 {
-    "score": 0
+    "score": 0,
     "lines_cleared": 0
 }
 ```
@@ -110,7 +110,7 @@ This is probably best acomplsihed by modifying the
 We want the game to get harder each level.
 Currently the game advances every 500 ms.
 
-1. In `main.js` in `timer_function`, update the time of the next turn to be $ 2500 / (\mathrm{level} + 4)\,\mathrm{ms}$. Where $\mathrm{level}$ is determined from the score object on the game.
+1. In `main.js` in `timer_function`, update the time of the next turn to be `2500 / (level + 4)`. Where `level` is determined from running the level function on the score object on the game.
 1. This should get faster every level, play with the values for a good feel of the speed and acceleration.
 
 ### Unit Tests
@@ -128,3 +128,13 @@ Let's review them.
 * Advancing the turn without manually dropping scores nothing.
 
 These can be the top level descriptors of our tests.
+
+1. Read the implementations in `tests/Score.test.js` and implement the missing tests.
+
+## Submission Details
+For this assessment, Fork this repository into your own GitHub.
+When you are complete send me an email with a link to your github repo.
+
+Please submit before 16:00 on Friday 18th August 2023.
+
+Please do get in contact with any questions.

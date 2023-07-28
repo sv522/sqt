@@ -24,7 +24,7 @@ Score.new_score = function () {
     return 0;
 };
 
-Score.level = function () {
+Score.level = function (score) {
     return 1;
 };
 
