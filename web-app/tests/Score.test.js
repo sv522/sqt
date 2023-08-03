@@ -44,7 +44,7 @@ describe("Score", function () {
             if (score.lines_cleared !== 0) {
                 throw new Error("New games should have no lines cleared");
             }
-            if (score.score !== 1) {
+            if (score.score !== 0) {
                 throw new Error("New games should have a zero score");
             }
         }
