@@ -31,6 +31,15 @@ const cells = R.range(0, grid_rows).map(function () {
 
 const update_grid = function () {
 
+    const currentScoreElement = document.getElementById("current-score");
+    const linesClearedElement = document.getElementById("lines-cleared");
+    const currentLevelElement = document.getElementById("current-level");
+
+    // Update the HTML elements with score information
+    currentScoreElement.textContent = game.score.score;
+    linesClearedElement.textContent = game.score.lines_cleared;
+    currentLevelElement.textContent = Score.level(game.score);
+
     // First display the grid of locked in blocks
     game.field.forEach(function (line, line_index) {
         line.forEach(function (block, column_index) {
@@ -103,13 +112,17 @@ document.body.onkeydown = function (event) {
 };
 
 const timer_function = function () {
+    const currentLevel = Score.level(game.score);
+    const nextTurnTime = 2500 / (currentLevel + 4);
+
     game = Tetris.next_turn(game);
     update_grid();
-    setTimeout(timer_function, 500);
+
+    // Set the timer for the next turn
+    setTimeout(timer_function, nextTurnTime);
 };
 
-// This first timeout starts the game. it's only called once.
-// From here on the timer_function above is called.
+// This first timeout starts the game. It's only called once.
+// From here on, the timer_function above is called.
 setTimeout(timer_function, 500);
 
-update_grid();
