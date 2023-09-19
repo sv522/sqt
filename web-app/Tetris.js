@@ -543,10 +543,23 @@ const lock = function (game) {
         game.current_tetromino,
         game.position
     );
+    // Find the highest row at which the Tetromino blocks are locked
+    let highestRow = Tetris.field_height;
+
     coords.forEach(function (coord) {
         updated_field[coord[1]][coord[0]] = game.current_tetromino.block_type;
+        if (y < highestRow) {
+            highestRow = y;
+        }
     });
-    return updated_field;
+    // Calculate the points based on the height it was locked
+    const distanceFallen = Tetris.field_height - highestRow - 1;
+    const points = distanceFallen * Score.level(game.score);
+
+    return {
+        updated_field,
+        points,
+    };
 };
 
 const is_complete_line = (line) => !line.some((block) => block === empty_block);
@@ -566,15 +579,15 @@ const clear_lines = R.pipe(
  * next_turn advances the Tetris game.
  * It will attempt to descend the current tetromino once.
  * If this is possible, that game state is returned.
- * Otherwise it checks if the game is lost (The current state is blocked)
- * Then otherwise will lock the current tetromino in place and deploy the next
+ * Otherwise, it checks if the game is lost (The current state is blocked).
+ * Then, it will lock the current tetromino in place and deploy the next one
  * from the top of the field.
  * @function
  * @memberof Tetris
  * @param {Tetris.Game} game
  * @returns {Tetris.Game}
  */
-Tetris.next_turn = function (game) {
+ Tetris.next_turn = function (game) {
     if (game.game_over) {
         return game;
     }
@@ -585,8 +598,8 @@ Tetris.next_turn = function (game) {
         return descended;
     }
 
-    // Is the current piece on top of a locked in piece?
-    // I.e. it's just been deployed and something is in the way.
+    // Is the current piece on top of a locked-in piece?
+    // I.e., it's just been deployed and something is in the way.
     // In this case, lose the game.
     if (is_blocked_by_geometry(
         game.field,
@@ -596,25 +609,28 @@ Tetris.next_turn = function (game) {
         return lose(game);
     }
 
-    // Otherwise, we can't descend and we've not lost,
+    // Otherwise, we can't descend, and we've not lost,
     // So lock the current piece in place and deploy the next.
-    const locked_field = lock(game);
+    const { updated_field, points } = lock(game);
 
-    const cleared_field = clear_lines(locked_field);
+    // Clear completed lines from the field and get the updated field
+    const cleared_field = clear_lines(updated_field);
+
+    // Calculate points for clearing lines and update the score
+    const pointsForLines = points + Score.level(game.score) * linesReadyToClear;
+    const newScore = Score.add_points(game.score, pointsForLines);
 
     const [next_tetromino, bag] = game.bag();
 
-    const newScore = Score.cleared_lines(linesReadyToClear, game.score);
-
     return {
-        "bag": bag,
-        "current_tetromino": game.next_tetromino,
-        "field": cleared_field,
-        "game_over": false,
-        "next_tetromino": next_tetromino,
-        "position": starting_position,
-        "score": newScore  // Updated score
-    };    
+        bag: bag,
+        current_tetromino: game.next_tetromino,
+        field: cleared_field,
+        game_over: false,
+        next_tetromino: next_tetromino,
+        position: starting_position,
+        score: newScore,
+    };
 };
 
 /**

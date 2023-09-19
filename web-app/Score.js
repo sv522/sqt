@@ -1,5 +1,3 @@
-import { ifElse } from "ramda";
-
 /**
  * @namespace Score
  * @author A. Freddie Page
