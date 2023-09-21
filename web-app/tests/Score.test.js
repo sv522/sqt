@@ -55,36 +55,8 @@ TLLL-IOOJJ`;
 example_game2.field = field_string2.split("\n").map(
     (s) => s.replace(/-/g, " ").split("")
 );
-
 const example_game3 = Tetris.new_game();
 const field_string3 = `----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
-----------
------I----
------I----
------I----
------I----
-TTTT-OOO--
-TTTT-OOO--
-TTTT-OOO--
-TTTT-OOO--`;
-example_game3.field = field_string3.split("\n").map(
-    (s) => s.replace(/-/g, " ").split("")
-);
-
-const example_game4 = Tetris.new_game();
-const field_string4 = `----------
 ----------
 ----------
 ----------
@@ -106,7 +78,7 @@ const field_string4 = `----------
 ----------
 ----------
 ----------`;
-example_game4.field = field_string4.split("\n").map(
+example_game3.field = field_string3.split("\n").map(
     (s) => s.replace(/-/g, " ").split("")
 );
 
@@ -200,7 +172,7 @@ describe("Score", function () {
     it(
         `A tetris scores 800 × level`,
         function () {
-            let game = example_game2;
+            let game = example_game;
             game.current_tetromino = Tetris.I_tetromino;
             game = Tetris.rotate_cw(game);
 
@@ -217,7 +189,7 @@ describe("Score", function () {
     it(
         `Back to back tetrises score 1200 × level`,
         function () {
-            let game = example_game3;
+            let game = example_game;
             game.current_tetromino = Tetris.I_tetromino;
             game = Tetris.rotate_cw(game);
 
@@ -241,7 +213,7 @@ describe("Score", function () {
     it(
         `A soft drop score 1 point per cell descended`,
         function () {
-            let game = example_game2;
+            let game = example_game;
 
             game.current_tetromino = Tetris.L_tetromino;
 
@@ -256,7 +228,7 @@ describe("Score", function () {
     it(
         `A hard drop score 2 point per cell descended`,
         function () {
-            let game = example_game4;
+            let game = example_game3;
             game.current_tetromino = Tetris.I_tetromino;
 
             game = Tetris.hard_drop(game);
